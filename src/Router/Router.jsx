@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import SocialAuthCallback from "../Providers/SocialAuthCallback";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />
+  },
+  {
+    path: "/social-auth-callback",
+    element: <SocialAuthCallback />
   },
 ]);
 

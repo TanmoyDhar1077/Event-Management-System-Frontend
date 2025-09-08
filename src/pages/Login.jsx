@@ -241,9 +241,11 @@ const Login = () => {
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-3">
+              
               <button
                 type="button"
                 className="w-full inline-flex justify-center py-2 px-3 border border-[#E6CFA9] rounded-lg shadow-sm bg-[#FBF9D1] text-xs font-medium text-[#9A3F3F] hover:bg-[#E6CFA9] hover:bg-opacity-30 transition duration-300 cursor-pointer"
+                onClick={() => { window.location.href = 'http://localhost:8000/api/auth/google'; }}
               >
                 <svg
                   className="h-4 w-4 mr-1"
