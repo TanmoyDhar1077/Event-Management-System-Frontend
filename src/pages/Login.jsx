@@ -6,6 +6,7 @@ import Lottie from "lottie-react";
 import axiosSecure from "../api/api";
 import { FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 import { MdAlternateEmail } from "react-icons/md";
+import useTitle from "../hooks/useTitle";
 
 const Login = () => {
   const {
@@ -17,6 +18,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  useTitle("Login");
 
   const onSubmit = async (data) => {
     setLoading(true);
