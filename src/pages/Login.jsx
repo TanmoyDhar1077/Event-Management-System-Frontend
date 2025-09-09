@@ -9,6 +9,7 @@ import { MdAlternateEmail } from "react-icons/md";
 import useTitle from "../hooks/useTitle";
 
 const Login = () => {
+  useTitle("Login");
   const {
     register,
     handleSubmit,
@@ -19,7 +20,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  useTitle("Login");
 
   useEffect(() => {
     // Check for error message from social auth callback
@@ -68,8 +68,9 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Login Form - Compact version */}
+      {/* Login Form */}
       <div className="w-full md:w-1/2 lg:w-2/5 h-full flex flex-col justify-center px-4 py-2 overflow-y-auto">
+        {/* Heading */}
         <div className="text-center mb-4">
           <h1 className="text-2xl md:text-3xl font-bold text-[#9A3F3F] mb-1">
             Welcome Back!
@@ -79,8 +80,10 @@ const Login = () => {
           </p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-[#E6CFA9] max-w-md mx-auto w-full">
+        {/* Form */}
+        <div className="bg-white rounded-xl shadow-xl border border-[#E6CFA9] max-w-md mx-auto w-full">
           <div className="p-4 sm:p-6">
+            {/* API Error Message */}
             {error && (
               <div className="bg-[#FBF9D1] border-l-4 border-[#9A3F3F] p-3 mb-4 rounded-md">
                 <div className="flex">
@@ -107,6 +110,7 @@ const Login = () => {
             )}
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              {/* Email Field */}
               <div>
                 <label className="block text-sm font-medium text-[#9A3F3F] mb-1">
                   Email Address
@@ -137,6 +141,7 @@ const Login = () => {
                 )}
               </div>
 
+              {/* Password Field */}
               <div>
                 <div className="flex justify-between items-center mb-1">
                   <label className="block text-sm font-medium text-[#9A3F3F]">
