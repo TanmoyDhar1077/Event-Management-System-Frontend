@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router";
 import { useForm } from "react-hook-form";
 import login from "../assets/login.json";
 import Lottie from "lottie-react";
@@ -18,7 +18,28 @@ const Login = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   useTitle("Login");
+
+  useEffect(() => {
+    // Check for error message from social auth callback
+    if (location.state?.error) {
+      setError(location.state.error);
+      // Clear the error from location state
+      window.history.replaceState({}, document.title);
+    }
+
+    // Check URL params for error from social auth provider
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlError = urlParams.get("error");
+    if (urlError) {
+      setError(
+        urlError === "social_auth_failed"
+          ? "Social authentication failed. Please try again or use email/password."
+          : urlError
+      );
+    }
+  }, [location]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -241,11 +262,23 @@ const Login = () => {
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-3">
-              
               <button
                 type="button"
                 className="w-full inline-flex justify-center py-2 px-3 border border-[#E6CFA9] rounded-lg shadow-sm bg-[#FBF9D1] text-xs font-medium text-[#9A3F3F] hover:bg-[#E6CFA9] hover:bg-opacity-30 transition duration-300 cursor-pointer"
-                onClick={() => { window.location.href = 'http://localhost:8000/api/auth/google'; }}
+                onClick={() => {
+                  try {
+                    // Save current URL to localStorage for potential error redirect
+                    localStorage.setItem(
+                      "loginRedirectFrom",
+                      window.location.pathname
+                    );
+                    window.location.href = import.meta.env.VITE_GOOGLE_AUTH_URL;
+                  } catch (err) {
+                    setError(
+                      "Failed to connect to Google authentication. Please try again."
+                    );
+                  }
+                }}
               >
                 <svg
                   className="h-4 w-4 mr-1"
@@ -253,13 +286,27 @@ const Login = () => {
                   viewBox="0 0 24 24"
                   fill="currentColor"
                 >
-                  <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" />
+                  <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2 12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" />
                 </svg>
                 Google
               </button>
               <button
                 type="button"
                 className="w-full inline-flex justify-center py-2 px-3 border border-[#E6CFA9] rounded-lg shadow-sm bg-[#FBF9D1] text-xs font-medium text-[#9A3F3F] hover:bg-[#E6CFA9] hover:bg-opacity-30 transition duration-300 cursor-pointer"
+                onClick={() => {
+                  try {
+                    // Save current URL to localStorage for potential error redirect
+                    localStorage.setItem(
+                      "loginRedirectFrom",
+                      window.location.pathname
+                    );
+                    window.location.href = import.meta.env.VITE_GITHUB_AUTH_URL;
+                  } catch (err) {
+                    setError(
+                      "Failed to connect to GitHub authentication. Please try again."
+                    );
+                  }
+                }}
               >
                 <svg
                   className="h-4 w-4 mr-1"
