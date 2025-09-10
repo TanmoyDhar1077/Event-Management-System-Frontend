@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import SocialAuthCallback from "../Providers/SocialAuthCallback";
+import SocialAuthCallback from "../socialLogin/SocialAuthCallback";
 
 const router = createBrowserRouter([
   {
