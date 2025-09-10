@@ -49,7 +49,7 @@ const Login = () => {
       const response = await axiosSecure.post("/login", data);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
-      navigate("/");
+      navigate("/home");
     } catch (err) {
       setError(
         err.response?.data?.message || "Login failed. Please try again."

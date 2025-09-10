@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import SocialAuthCallback from "../Providers/SocialAuthCallback";
@@ -6,7 +6,11 @@ import SocialAuthCallback from "../Providers/SocialAuthCallback";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Home</div>
+    element: <Navigate to="/login" replace />
+  },
+  {
+    path:"/home",
+    element:<div>Home Page</div>
   },
   {
     path: "/login",
