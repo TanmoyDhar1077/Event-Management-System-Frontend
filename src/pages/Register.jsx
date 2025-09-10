@@ -7,6 +7,7 @@ import { FaUser, FaLock, FaEyeSlash, FaEye } from "react-icons/fa";
 import { MdAlternateEmail } from "react-icons/md";
 import { Link, useNavigate } from "react-router";
 import axiosSecure from "../api/api";
+import axios from "axios";
 
 const Register = () => {
   useTitle("Register");
@@ -29,10 +30,12 @@ const Register = () => {
     setError("");
     try {
       let imageUrl = ""; // To store uploaded image URL
+
       // Upload image to ImgBB
       if (data.profile_picture && data.profile_picture[0]) {
         const formData = new FormData();
         formData.append("image", data.profile_picture[0]);
+
         // ImgBB API call
         const res = await axios.post(
           `https://api.imgbb.com/1/upload?key=${
@@ -42,7 +45,6 @@ const Register = () => {
         );
 
         const result = await res.data;
-        console.log("ImgBB upload result:", result);
 
         if (result.success) {
           imageUrl = result.data.url; // Uploaded image URL
@@ -58,18 +60,19 @@ const Register = () => {
         password: data.password,
         profile_picture: imageUrl, // Uploaded image URL
       };
-      console.log("User data to be sent to backend:", userData);
 
       // Axios instance with secure headers
-
       const response = await axiosSecure.post("/register", userData);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
       navigate("/");
     } catch (err) {
       setError(
-        err.response?.data?.message || "Registration failed. Please try again."
+        err.response?.data?.message ||
+          err.message ||
+          "Registration failed. Please try again."
       );
+      console.error("Registration error:", err);
     } finally {
       setLoading(false);
     }
